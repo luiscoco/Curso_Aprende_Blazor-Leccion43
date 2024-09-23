@@ -1,0 +1,44 @@
+﻿@page "/formulario-basico-con-validacion"
+
+<EditForm Model="@persona" OnValidSubmit="@EnviarFormulario">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div>
+        <label>Nombre:</label>
+        <InputText @bind-Value="persona.Nombre" />
+        <ValidationMessage For="@(() => persona.Nombre)" />
+    </div>
+    <br />
+    <div>
+        <label>Edad:</label>
+        <InputNumber @bind-Value="persona.Edad" />
+        <ValidationMessage For="@(() => persona.Edad)" />
+    </div>
+    <br />
+    <button type="submit">Enviar</button>
+</EditForm>
+<br />
+<p>@mensaje</p>
+
+@code {
+    private Persona persona = new Persona();
+
+    private string mensaje = "";
+
+    private void EnviarFormulario()
+    {
+        // Lógica para manejar el envío del formulario
+        mensaje = $"Nombre: {persona.Nombre}, Edad: {persona.Edad}";
+    }
+
+    public class Persona
+    {
+        [Required(ErrorMessage = "El nombre es obligatorio.")]
+        [StringLength(50, ErrorMessage = "El nombre no debe exceder los 50 caracteres.")]
+        public string Nombre { get; set; }
+
+        [Range(18, 100, ErrorMessage = "La edad debe estar entre 18 y 100 años")]
+        public int Edad { get; set; }
+    }
+}

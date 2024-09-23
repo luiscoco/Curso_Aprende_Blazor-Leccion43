@@ -1,0 +1,39 @@
+﻿@page "/formulario-basico"
+
+<EditForm Model="@persona" OnValidSubmit="@EnviarFormulario">
+    <DataAnnotationsValidator />
+
+    <div>
+        <label>Nombre:</label>
+        <InputText @bind-Value="persona.Nombre" />
+    </div>
+    <br />
+    <div>
+        <label>Edad:</label>
+        <InputNumber @bind-Value="persona.Edad" />
+    </div>
+    <br />
+    <button type="submit">Enviar</button>
+</EditForm>
+<br />
+<p>@mensaje</p>
+
+@code {
+    private Persona persona = new Persona();
+
+    private string mensaje = "";
+
+    private void EnviarFormulario()
+    {
+        // Lógica para manejar el envío del formulario
+        mensaje = $"Nombre: {persona.Nombre}, Edad: {persona.Edad}";
+    }
+
+    public class Persona
+    {
+        public string Nombre { get; set; }
+        public int Edad { get; set; }
+    }
+}
+
+
